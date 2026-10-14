@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="students_student_root_menu" name="Student Management" sequence="-100"/>
+    <menuitem id="students_student_student_menu" name="Student" sequence="0" parent="students_student_root_menu" action="student_action"/>
+    <menuitem id="students_student_department_menu" name="Departments" sequence="1" parent="students_student_root_menu" action="student_department_action" groups="base.group_system"/>
+    <menuitem id="students_student_subject_menu" name="Subject" sequence="2" parent="students_student_root_menu" action="student_subject_action" groups="base.group_system"/>
+    <menuitem id="students_student_fee_structure_menu" name="Fee Structure" sequence="3" parent="students_student_root_menu" action="student_fee_line_action" groups="base.group_system"/>
+    <menuitem id="students_student_semester_menu" name="Semester" sequence="4" parent="students_student_root_menu" action="student_semester_action" groups="base.group_system"/>
+    <menuitem id="students_student_teacher_menu" name="Teachers" sequence="5" parent="students_student_root_menu" action="student_teacher_action" groups="base.group_system"/>
+    <menuitem id="students_student_teacher_leave_menu" name="Leave Requests" sequence="6" parent="students_student_root_menu" action="student_teacher_leave_action" groups="students_management.group_teacher,base.group_system"/>
+</odoo>

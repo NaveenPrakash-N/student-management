@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <record id="student_list_view" model="ir.ui.view">
+        <field name="name">students.student.list</field>
+        <field name="model">students.student</field>
+
+        <field name="arch" type="xml">
+            <list>
+
+                <field name="sequence" readonly="1"/>
+                <field name="photo" widget="image" width="40"/>
+                <field name="name"/>
+                <field name="age" readonly="1"/>
+                <field name="gender"/>
+                <field name="department_id"/>
+
+                <field name="enrollment_state"
+                       widget="badge"
+                       decoration-info="enrollment_state == 'draft'"
+                       decoration-warning="enrollment_state == 'confirmed'"
+                       decoration-success="enrollment_state == 'completed'"/>
+
+            </list>
+        </field>
+    </record>
+
+
+    <record id="student_form_view" model="ir.ui.view">
+        <field name="name">students.student.form</field>
+        <field name="model">students.student</field>
+
+        <field name="arch" type="xml">
+
+            <form>
+
+                <header>
+
+                    <button
+                        name="action_confirm"
+                        type="object"
+                        string="Confirm"
+                        class="btn-primary"
+                        invisible="enrollment_state != 'draft'"/>
+
+                    <button
+                        name="action_complete"
+                        type="object"
+                        string="Mark Completed"
+                        class="btn-primary"
+                        invisible="enrollment_state != 'confirmed'"/>
+
+                    <button
+                        name="action_reset_draft"
+                        type="object"
+                        string="Reset to Draft"
+                        invisible="enrollment_state == 'draft'"/>
+
+                    <button
+                        name="send_email_wizard"
+                        type="object"
+                        string="Send Email"
+                        class="btn-secondary"/>
+
+                    <button
+                        name="action_print_report"
+                        type="object"
+                        string="Print Report"
+                        class="btn-secondary"/>
+
+                    <field
+                        name="enrollment_state"
+                        widget="statusbar"
+                        statusbar_visible="draft,confirmed,completed"/>
+
+                </header>
+
+
+                <sheet>
+
+                    <div class="oe_avatar">
+                        <field
+                            name="photo"
+                            widget="image"
+                            options="{'preview_image': 'photo'}"/>
+                    </div>
+
+
+                    <div class="oe_title">
+                        <h1>
+                            <field
+                                name="sequence"
+                                readonly="1"/>
+                        </h1>
+                    </div>
+
+
+
+                    <group>
+
+                        <group string="Basic Info">
+
+                            <field name="name"/>
+
+                            <field name="dob"/>
+
+                            <field
+                                name="age"
+                                readonly="1"/>
+
+                            <field name="gender"/>
+
+                        </group>
+
+
+                        <group string="Contact Info">
+
+                            <field name="address"/>
+
+                            <field name="phone"/>
+
+                            <field name="email"/>
+
+                        </group>
+
+                    </group>
+
+
+
+                    <group>
+
+                        <group string="Academic Info">
+
+                            <field name="department_id"/>
+
+                            <field
+                                name="subject_ids"
+                                widget="many2many_tags"/>
+
+                            <field name="teacher_id"/>
+
+                            <field
+                                name="overall_percentage"
+                                readonly="1"/>
+
+                        </group>
+
+                    </group>
+
+
+                    <notebook>
+
+                        <!-- SEMESTER FEES -->
+
+                        <page string="Semester Fees">
+
+                            <field name="semester_fee_ids">
+
+                                <list editable="bottom">
+
+                                    <field name="semester_id"/>
+
+                                    <field name="payable_amount"/>
+
+                                    <field
+                                        name="discount_percent"
+                                        readonly="1"/>
+
+                                    <field
+                                        name="discounted_price"
+                                        readonly="1"/>
+
+                                    <field name="paid_amount"/>
+
+                                    <field
+                                        name="balance"
+                                        readonly="1"/>
+
+                                    <field
+                                        name="status"
+                                        widget="badge"
+                                        decoration-danger="status == 'unpaid'"
+                                        decoration-warning="status == 'partial'"
+                                        decoration-success="status == 'paid'"/>
+
+                                </list>
+
+                            </field>
+
+                        </page>
+
+
+                        <!-- MARKS -->
+
+                        <page string="Marks">
+
+                            <field name="mark_ids">
+
+                                <list editable="bottom">
+
+                                    <field name="subject_id"/>
+
+                                    <field name="marks_obtained"/>
+
+                                    <field name="total_mark"/>
+
+                                    <field
+                                        name="percentage"
+                                        readonly="1"/>
+
+                                    <field
+                                        name="grade"
+                                        readonly="1"/>
+
+                                    <field
+                                        name="result"
+                                        widget="badge"
+                                        decoration-danger="result == 'fail'"
+                                        decoration-success="result == 'pass'"/>
+
+                                </list>
+
+                            </field>
+
+                        </page>
+                        <page string="Internal Note">
+
+                            <field name="internal_note" placeholder="Type Here :"/>  
+                        </page>
+
+                    </notebook>
+
+                </sheet>
+
+
+
+                <chatter/>
+
+            </form>
+
+        </field>
+    </record>
+
+
+
+
+    <record id="student_kanban_view" model="ir.ui.view">
+        <field name="name">students.student.kanban</field>
+        <field name="model">students.student</field>
+
+        <field name="arch" type="xml">
+
+            <kanban>
+
+                <templates>
+
+                    <t t-name="card">
+
+                        <div class="d-flex align-items-center gap-3 p-2">
+
+                            <field
+                                name="photo"
+                                widget="image"
+                                class="oe_kanban_avatar"
+                                options="{'size': [48, 48]}"/>
+
+                            <div class="flex-grow-1">
+
+                                <strong>
+                                    <field name="name"/>
+                                </strong>
+
+                                <div class="text-muted small">
+                                    <field name="sequence"/>
+                                </div>
+
+                                <div class="text-muted small">
+                                    <field name="dob"/>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </t>
+
+                </templates>
+
+            </kanban>
+
+        </field>
+    </record>
+
+
+
+
+    <record id="student_action" model="ir.actions.act_window">
+
+        <field name="name">Students</field>
+
+        <field name="res_model">students.student</field>
+
+        <field name="view_mode">list,kanban,form</field>
+
+    </record>
+
+</odoo>

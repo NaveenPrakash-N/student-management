@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="student_semester_list_view" model="ir.ui.view">
+        <field name="name">students.semester.list</field>
+        <field name="model">students.semester</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="semester"/>
+                <field name="total_amount"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="student_semester_form_view" model="ir.ui.view">
+        <field name="name">students.semester.form</field>
+        <field name="model">students.semester</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="semester"/>
+                        <field name="total_amount" readonly="1"/>
+                    </group>
+                    <field name="fee_type_ids">
+                        <list editable="bottom">
+                            <field name="name"/>
+                            <field name="amount"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="student_semester_action" model="ir.actions.act_window">
+        <field name="name">Semester</field>
+        <field name="res_model">students.semester</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

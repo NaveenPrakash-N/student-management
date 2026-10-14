@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="rule_teacher_own_students" model="ir.rule">
+
+        <field name="name">Teacher: own students only</field>
+
+        <field name="model_id" ref="model_students_student"/>
+
+        <field name="groups"
+               eval="[(4, ref('group_teacher'))]"/>
+
+        <field name="domain_force">
+            [('teacher_id.user_id', '=', user.id)]
+        </field>
+
+    </record>
+
+
+    <record id="rule_teacher_own_leave" model="ir.rule">
+
+        <field name="name">
+            Teacher - Own Leave Requests
+        </field>
+
+        <field name="model_id"
+               ref="model_students_teacher_leave"/>
+
+        <field name="groups"
+               eval="[(4, ref('students_management.group_teacher'))]"/>
+
+        <field name="domain_force">
+            [('teacher_id.user_id', '=', user.id)]
+        </field>
+
+    </record>
+
+</odoo>

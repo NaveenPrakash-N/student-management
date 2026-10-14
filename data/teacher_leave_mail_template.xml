@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <record id="mail_template_teacher_leave_notify" model="mail.template">
+
+        <field name="name">Teacher Leave Notification</field>
+
+        <field name="model_id" ref="model_students_student"/>
+
+        <field name="subject">Teacher Leave Approved - {{ object.teacher_id.name }}</field>
+
+        <field name="email_from">{{ user.email or 'noreply@example.com' }}</field>
+
+        <field name="email_to">{{ object.email }}</field>
+
+        <field name="body_html" type="html">
+            <div>
+
+                <p>
+                    Dear
+                    <strong>
+                        <t t-out="object.name"/>
+                    </strong>,
+                </p>
+
+                <p>
+                    This is to inform you that your teacher
+                    <strong>
+                        <t t-out="ctx.get('teacher_name')"/>
+                    </strong>
+                    has been granted leave.
+                </p>
+
+                <p>
+                    <strong>Leave From:</strong>
+                    <t t-out="ctx.get('date_from')"/>
+                    <br/>
+                    <strong>Leave To:</strong>
+                    <t t-out="ctx.get('date_to')"/>
+                </p>
+
+                <p>
+                    <strong>Reason:</strong>
+                    <br/>
+                    <t t-out="ctx.get('leave_reason')"/>
+                </p>
+
+                <p>
+                    <strong>Substitute Teacher:</strong>
+                    <t t-out="ctx.get('substitute_teacher_name')"/>
+                </p>
+
+                <p>
+                    Please contact the substitute teacher
+                    during your teacher's leave period.
+                </p>
+
+                <p>
+                    Regards,
+                    <br/>
+                    <strong>Student Management Office</strong>
+                </p>
+
+            </div>
+        </field>
+
+    </record>
+
+</odoo>

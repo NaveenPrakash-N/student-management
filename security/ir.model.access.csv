@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_students_student,students.student,model_students_student,base.group_user,1,1,1,1
+access_students_department,students.department,model_students_department,,1,1,1,1
+access_students_subject,students.subject,model_students_subject,base.group_user,1,1,1,1
+access_send_student_email,send.student.email,model_send_student_email,base.group_user,1,1,1,1
+access_students_teacher,students.teacher,model_students_teacher,base.group_user,1,1,1,1
+access_students_fee_type,students.fee.type,model_students_fee_type,base.group_system,1,1,1,1
+access_students_semester,students.semester,model_students_semester,base.group_user,1,1,1,1
+access_students_semester_fee,students.semester.fee,model_students_semester_fee,base.group_user,1,1,1,1
+access_students_student_teacher,students.student.teacher,model_students_student,students_management.group_teacher,1,1,1,1
+access_students_mark,students.mark,model_students_mark,base.group_user,1,1,1,1
+access_students_teacher_leave_teacher,students.teacher.leave.teacher,model_students_teacher_leave,students_management.group_teacher,1,1,1,0
+access_students_teacher_leave_admin,students.teacher.leave.admin,model_students_teacher_leave,base.group_system,1,1,1,1

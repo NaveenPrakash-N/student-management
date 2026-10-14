@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="paperformat_student_report" model="report.paperformat">
+        <field name="name">Student Report Format</field>
+        <field name="default" eval="False"/>
+        <field name="format">A4</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">30</field>
+        <field name="margin_bottom">24</field>
+        <field name="margin_left">12</field>
+        <field name="margin_right">12</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">20</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <record id="action_report_student" model="ir.actions.report">
+        <field name="name">Student Details</field>
+        <field name="model">students.student</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">students_management.report_student_document</field>
+        <field name="report_file">students_management.report_student_document</field>
+        <field name="binding_model_id" ref="model_students_student"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="paperformat_student_report"/>
+    </record>
+
+    <template id="student_report_layout">
+
+        <div class="header" style="text-align:center;">
+            <div style="font-size:24px; font-weight:bold; color:#163D7A; margin-top:6px;">
+                BaniBro Technology
+            </div>
+            <div style="font-size:14px; color:#555; margin-top:2px;">
+                Private Limited
+            </div>
+            <div style="font-size:10px; color:#666; margin-top:6px;">
+                Nagercoil, Tamil Nadu | +91 XXXXX XXXXX | info@banibro.com | www.banibro.com
+            </div>
+            <hr style="border:none; border-top:2px solid #163D7A; margin-top:10px;"/>
+        </div>
+
+        <div class="article" t-att-data-oe-model="doc and doc._name" t-att-data-oe-id="doc and doc.id">
+            <t t-out="0"/>
+        </div>
+
+        <div class="footer" style="border-top:2px solid #163D7A; padding-top:8px; font-size:10px; color:#666; text-align:center;">
+            <div><b>BaniBro Technology Private Limited</b></div>
+            <div>Nagercoil, Tamil Nadu</div>
+            <div>www.banibro.com | info@banibro.com | +91 XXXXX XXXXX</div>
+            <div style="margin-top:4px;">This is a computer generated report.</div>
+            <div style="margin-top:3px;">Page <span class="page"/> / <span class="topage"/></div>
+        </div>
+
+    </template>
+
+    <template id="report_student_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="students_management.student_report_layout">
+                    <div class="page">
+
+                        <!-- STUDENT INFORMATION -->
+                        <table style="width:100%; margin-top:10px; border-collapse:collapse; page-break-inside:avoid;">
+                            <tr>
+                                <td style="width:72%; vertical-align:top;">
+                                    <table style="width:100%; font-size:13px;">
+                                        <tr><td style="font-weight:bold; width:150px; padding:3px 0;">Student ID</td><td><span t-field="doc.sequence"/></td></tr>
+                                        <tr><td style="font-weight:bold; padding:3px 0;">Name</td><td><span t-field="doc.name"/></td></tr>
+                                        <tr><td style="font-weight:bold; padding:3px 0;">Date of Birth</td><td><span t-field="doc.dob"/></td></tr>
+                                        <tr><td style="font-weight:bold; padding:3px 0;">Age</td><td><span t-field="doc.age"/></td></tr>
+                                        <tr><td style="font-weight:bold; padding:3px 0;">Gender</td><td><span t-field="doc.gender"/></td></tr>
+                                        <tr><td style="font-weight:bold; padding:3px 0;">Department</td><td><span t-field="doc.department_id.name"/></td></tr>
+                                        <tr><td style="font-weight:bold; padding:3px 0;">Teacher</td><td><span t-field="doc.teacher_id.name"/></td></tr>
+                                        <tr><td style="font-weight:bold; padding:3px 0;">Phone</td><td><span t-field="doc.phone"/></td></tr>
+                                        <tr><td style="font-weight:bold; padding:3px 0;">Email</td><td><span t-field="doc.email"/></td></tr>
+                                        <tr><td style="font-weight:bold; padding:3px 0;">Address</td><td><span t-field="doc.address"/></td></tr>
+                                    </table>
+                                </td>
+                                <td style="width:28%; text-align:center; vertical-align:top;">
+                                    <img t-if="doc.photo" t-att-src="image_data_uri(doc.photo)"
+                                         style="width:120px; height:120px; object-fit:cover; border:2px solid #163D7A; border-radius:8px;"/>
+                                    <div style="margin-top:8px; font-weight:bold; font-size:13px;"><span t-field="doc.name"/></div>
+                                    <div style="font-size:11px; color:#666;"><span t-field="doc.sequence"/></div>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- OVERALL PERFORMANCE -->
+                        <div style="margin-top:20px; border:2px solid #163D7A; border-radius:8px; overflow:hidden; page-break-inside:avoid;">
+                            <div style="background:#163D7A; color:white; padding:8px; font-size:16px; font-weight:bold;">
+                                OVERALL PERFORMANCE
+                            </div>
+                            <table style="width:100%; border-collapse:collapse;">
+                                <tr>
+                                    <td style="width:55%; padding:14px; vertical-align:top;">
+                                        <table style="width:100%; font-size:13px;">
+                                            <tr><td style="font-weight:bold;">Overall Percentage</td><td><span t-field="doc.overall_percentage"/> %</td></tr>
+                                            <tr><td style="font-weight:bold;">Total Subjects</td><td><span t-esc="len(doc.mark_ids)"/></td></tr>
+                                        </table>
+                                    </td>
+                                    <td style="width:45%; padding:14px; text-align:center; vertical-align:middle;">
+                                        <t t-if="doc.overall_percentage >= 90">
+                                            <div style="display:inline-block; padding:8px 20px; border-radius:20px; background:#2E7D32; color:white; font-size:16px; font-weight:bold;">
+                                                OUTSTANDING
+                                            </div>
+                                        </t>
+                                        <t t-elif="doc.overall_percentage >= 75">
+                                            <div style="display:inline-block; padding:8px 20px; border-radius:20px; background:#1565C0; color:white; font-size:16px; font-weight:bold;">
+                                                VERY GOOD
+                                            </div>
+                                        </t>
+                                        <t t-elif="doc.overall_percentage >= 60">
+                                            <div style="display:inline-block; padding:8px 20px; border-radius:20px; background:#EF6C00; color:white; font-size:16px; font-weight:bold;">
+                                                GOOD
+                                            </div>
+                                        </t>
+                                        <t t-else="">
+                                            <div style="display:inline-block; padding:8px 20px; border-radius:20px; background:#D32F2F; color:white; font-size:16px; font-weight:bold;">
+                                                NEEDS IMPROVEMENT
+                                            </div>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!-- MARKS -->
+                        <div style="margin-top:20px; page-break-inside:avoid;">
+                            <div style="background:#163D7A; color:white; padding:8px; font-size:16px; font-weight:bold;">
+                                MARKS DETAILS
+                            </div>
+                            <table style="width:100%; border-collapse:collapse; font-size:12px;">
+                                <thead>
+                                    <tr style="background:#E8EEF9;">
+                                        <th style="border:1px solid #999; padding:6px;">Subject</th>
+                                        <th style="border:1px solid #999; padding:6px; text-align:center;">Marks</th>
+                                        <th style="border:1px solid #999; padding:6px; text-align:center;">Total</th>
+                                        <th style="border:1px solid #999; padding:6px; text-align:center;">%</th>
+                                        <th style="border:1px solid #999; padding:6px; text-align:center;">Grade</th>
+                                        <th style="border:1px solid #999; padding:6px; text-align:center;">Result</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="doc.mark_ids" t-as="mark">
+                                        <td style="border:1px solid #999; padding:6px;"><span t-field="mark.subject_id.name"/></td>
+                                        <td style="border:1px solid #999; padding:6px; text-align:center;"><span t-field="mark.marks_obtained"/></td>
+                                        <td style="border:1px solid #999; padding:6px; text-align:center;"><span t-field="mark.total_mark"/></td>
+                                        <td style="border:1px solid #999; padding:6px; text-align:center;"><span t-field="mark.percentage"/>%</td>
+                                        <td style="border:1px solid #999; padding:6px; text-align:center; font-weight:bold;"><span t-field="mark.grade"/></td>
+                                        <td style="border:1px solid #999; padding:6px; text-align:center;">
+                                            <span t-if="mark.result == 'pass'" style="color:green; font-weight:bold;">PASS</span>
+                                            <span t-if="mark.result == 'fail'" style="color:red; font-weight:bold;">FAIL</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- GRADE LEGEND -->
+                        <div style="margin-top:12px; border:1px solid #163D7A; border-radius:6px; padding:10px; background:#F8FAFD; page-break-inside:avoid;">
+                            <div style="font-size:13px; font-weight:bold; color:#163D7A; margin-bottom:8px;">Grade Legend</div>
+                            <table style="width:100%; font-size:12px;">
+                                <tr><td><b>O</b> - Outstanding (90-100)</td></tr>
+                                <tr><td><b>A</b> - Excellent (75-89)</td></tr>
+                                <tr><td><b>B</b> - Good (60-74)</td></tr>
+                                <tr><td><b>C</b> - Average (50-59)</td></tr>
+                                <tr><td><b>F</b> - Fail (Below 50)</td></tr>
+                            </table>
+                        </div>
+
+                        <!-- SEMESTER FEE DETAILS -->
+                        <div style="margin-top:20px; page-break-inside:avoid;">
+                            <div style="background:#163D7A; color:white; padding:8px; font-size:16px; font-weight:bold;">
+                                SEMESTER FEE DETAILS
+                            </div>
+                            <table style="width:100%; border-collapse:collapse; font-size:12px;">
+                                <thead>
+                                    <tr style="background:#E8EEF9;">
+                                        <th style="border:1px solid #999; padding:6px;">Semester</th>
+                                        <th style="border:1px solid #999; padding:6px; text-align:right;">Payable</th>
+                                        <th style="border:1px solid #999; padding:6px; text-align:center;">Discount %</th>
+                                        <th style="border:1px solid #999; padding:6px; text-align:right;">Discounted Fee</th>
+                                        <th style="border:1px solid #999; padding:6px; text-align:right;">Paid</th>
+                                        <th style="border:1px solid #999; padding:6px; text-align:right;">Balance</th>
+                                        <th style="border:1px solid #999; padding:6px; text-align:center;">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="doc.semester_fee_ids" t-as="fee">
+                                        <td style="border:1px solid #999; padding:6px;"><span t-field="fee.semester_id.display_name"/></td>
+                                        <td style="border:1px solid #999; padding:6px; text-align:right;">Rs. <span t-field="fee.payable_amount"/></td>
+                                        <td style="border:1px solid #999; padding:6px; text-align:center;"><span t-field="fee.discount_percent"/>%</td>
+                                        <td style="border:1px solid #999; padding:6px; text-align:right;">Rs. <span t-field="fee.discounted_price"/></td>
+                                        <td style="border:1px solid #999; padding:6px; text-align:right; color:green;">Rs. <span t-field="fee.paid_amount"/></td>
+                                        <td style="border:1px solid #999; padding:6px; text-align:right; color:red;">Rs. <span t-field="fee.balance"/></td>
+                                        <td style="border:1px solid #999; padding:6px; text-align:center;">
+                                            <span t-if="fee.status == 'paid'" style="color:green; font-weight:bold;">PAID</span>
+                                            <span t-if="fee.status == 'partial'" style="color:#E67E22; font-weight:bold;">PARTIAL</span>
+                                            <span t-if="fee.status == 'unpaid'" style="color:red; font-weight:bold;">UNPAID</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- FEE SUMMARY -->
+                        <div style="margin-top:18px; border:2px solid #163D7A; border-radius:8px; overflow:hidden; page-break-inside:avoid;">
+                            <div style="background:#163D7A; color:white; padding:8px; font-size:16px; font-weight:bold;">
+                                FEE SUMMARY
+                            </div>
+                            <table style="width:100%;">
+                                <tr>
+                                    <td style="width:25%; text-align:center; padding:12px; border-right:1px solid #DDD;">
+                                        <div style="font-size:12px; color:#555;">Total Payable</div>
+                                        <div style="font-size:18px; font-weight:bold; color:#163D7A;">
+                                            Rs. <span t-esc="'%.2f' % sum(doc.semester_fee_ids.mapped('payable_amount')) if doc.semester_fee_ids else '0.00'"/>
+                                        </div>
+                                    </td>
+                                    <td style="width:25%; text-align:center; padding:12px; border-right:1px solid #DDD;">
+                                        <div style="font-size:12px; color:#555;">Total Paid</div>
+                                        <div style="font-size:18px; font-weight:bold; color:green;">
+                                            Rs. <span t-esc="'%.2f' % sum(doc.semester_fee_ids.mapped('paid_amount')) if doc.semester_fee_ids else '0.00'"/>
+                                        </div>
+                                    </td>
+                                    <td style="width:25%; text-align:center; padding:12px; border-right:1px solid #DDD;">
+                                        <div style="font-size:12px; color:#555;">Outstanding</div>
+                                        <div style="font-size:18px; font-weight:bold; color:red;">
+                                            Rs. <span t-esc="'%.2f' % sum(doc.semester_fee_ids.mapped('balance')) if doc.semester_fee_ids else '0.00'"/>
+                                        </div>
+                                    </td>
+                                    <td style="width:25%; text-align:center; padding:12px;">
+                                        <div style="font-size:12px; color:#555;">Semesters</div>
+                                        <div style="font-size:18px; font-weight:bold; color:#163D7A;">
+                                            <span t-esc="len(doc.semester_fee_ids)"/>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>

@@ -1,0 +1,35 @@
+.o-sm-accurateVoice {
+    width: 1.9rem;
+    height: 1.9rem;
+    min-width: 1.9rem;
+    min-height: 1.9rem;
+    margin-inline: 0.1rem;
+    padding: 0 !important;
+    color: inherit;
+    opacity: 0.82;
+    z-index: 2;
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    vertical-align: middle;
+
+    &:hover,
+    &:focus-visible {
+        opacity: 1;
+    }
+
+    &.o-recording {
+        opacity: 1;
+        animation: o-sm-voice-pulse 1s ease-in-out infinite;
+    }
+
+    &.o-processing {
+        opacity: 0.65;
+    }
+}
+
+@keyframes o-sm-voice-pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.12); }
+}

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id='send_student_email' model='ir.ui.view'>
+        <field name='name'>send.student.email</field>
+        <field name='model'>send.student.email</field>
+        <field name='arch' type='xml'>
+            <form string="Send Student Email">
+                <group>
+                    <field name="email_from"/>
+                    <field name="email_to"/>
+                    <field name="email_subject"/>
+                    <field name="email_body"/>
+                </group>
+                <footer>
+                    <button string="Send" type="object" name="send_email" class="btn-primary"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id='send_student_email_action' model='ir.actions.act_window'>
+        <field name='name'>Send Student Email</field>
+        <field name='res_model'>send.student.email</field>
+        <field name='view_mode'>form</field>
+        <field name='target'>new</field>
+    </record>
+
+</odoo>

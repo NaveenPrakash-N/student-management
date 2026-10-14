@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <!-- LIST VIEW -->
+
+    <record id="student_teacher_leave_list_view" model="ir.ui.view">
+
+        <field name="name">students.teacher.leave.list</field>
+
+        <field name="model">students.teacher.leave</field>
+
+        <field name="arch" type="xml">
+
+            <list>
+
+                <field name="teacher_id"/>
+
+                <field name="substitute_teacher_id"/>
+
+                <field name="date_from"/>
+
+                <field name="date_to"/>
+
+                <field name="reason"/>
+
+                <field name="state"
+                       widget="badge"
+                       decoration-info="state == 'draft'"
+                       decoration-success="state == 'approved'"
+                       decoration-danger="state == 'refused'"/>
+
+                <field name="notified"
+                       groups="base.group_system"/>
+
+            </list>
+
+        </field>
+
+    </record>
+
+
+    <!-- FORM VIEW -->
+
+    <record id="student_teacher_leave_form_view" model="ir.ui.view">
+
+        <field name="name">students.teacher.leave.form</field>
+
+        <field name="model">students.teacher.leave</field>
+
+        <field name="arch" type="xml">
+
+            <form>
+
+                <header>
+
+                    <button
+                        name="action_approve"
+                        type="object"
+                        string="Approve"
+                        class="btn-primary"
+                        invisible="state != 'draft'"
+                        groups="base.group_system"
+                    />
+
+                    <button
+                        name="action_refuse"
+                        type="object"
+                        string="Refuse"
+                        class="btn-danger"
+                        invisible="state != 'draft'"
+                        groups="base.group_system"
+                    />
+
+                    <button
+                        name="action_reset_to_draft"
+                        type="object"
+                        string="Reset to Draft"
+                        invisible="state == 'draft'"
+                        groups="base.group_system"
+                    />
+
+                    <field
+                        name="state"
+                        widget="statusbar"
+                        statusbar_visible="draft,approved,refused"
+                    />
+
+                </header>
+
+
+                <sheet>
+
+                    <group>
+
+                        <group string="Leave Details">
+
+                            <!-- TEACHER VERSION -->
+
+                            <field
+                                name="teacher_id"
+                                groups="students_management.group_teacher"
+                                readonly="1"
+                            />
+
+                            <!-- ADMIN VERSION -->
+
+                            <field
+                                name="teacher_id"
+                                groups="base.group_system"
+                            />
+
+                            <field name="substitute_teacher_id"/>
+
+                            <field name="date_from"/>
+
+                            <field name="date_to"/>
+
+                        </group>
+
+
+                        <group string="Reason">
+
+                            <field
+                                name="reason"
+                                placeholder="Enter the reason for leave..."
+                            />
+
+                        </group>
+
+                    </group>
+
+
+                    <group
+                        string="Notification"
+                        groups="base.group_system"
+                    >
+
+                        <field name="notified"/>
+
+                    </group>
+
+                </sheet>
+
+            </form>
+
+        </field>
+
+    </record>
+
+
+    <!-- SEARCH VIEW -->
+
+    <record
+        id="student_teacher_leave_search_view"
+        model="ir.ui.view"
+    >
+
+        <field name="name">students.teacher.leave.search</field>
+
+        <field name="model">students.teacher.leave</field>
+
+        <field name="arch" type="xml">
+
+            <search>
+
+                <field name="teacher_id"/>
+
+                <field name="substitute_teacher_id"/>
+
+                <filter
+                    name="filter_draft"
+                    string="Draft"
+                    domain="[('state', '=', 'draft')]"
+                />
+
+                <filter
+                    name="filter_approved"
+                    string="Approved"
+                    domain="[('state', '=', 'approved')]"
+                />
+
+                <filter
+                    name="filter_refused"
+                    string="Refused"
+                    domain="[('state', '=', 'refused')]"
+                />
+
+                <separator/>
+
+                <filter
+                    name="groupby_teacher"
+                    string="Teacher"
+                    context="{'group_by': 'teacher_id'}"
+                />
+
+                <filter
+                    name="groupby_state"
+                    string="Status"
+                    context="{'group_by': 'state'}"
+                />
+
+            </search>
+
+        </field>
+
+    </record>
+
+
+    <!-- ACTION -->
+
+    <record
+        id="student_teacher_leave_action"
+        model="ir.actions.act_window"
+    >
+
+        <field name="name">Teacher Leave Requests</field>
+
+        <field name="res_model">students.teacher.leave</field>
+
+        <field name="view_mode">list,form</field>
+
+        <field
+            name="search_view_id"
+            ref="student_teacher_leave_search_view"
+        />
+
+    </record>
+
+</odoo>

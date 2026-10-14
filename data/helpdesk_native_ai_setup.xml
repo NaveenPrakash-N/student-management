@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Runs on install and on every -u students_management, which is
+             important because this project module already exists in the DB.  The setup now registers general record tools plus the existing Helpdesk tools. -->
+        <function model="students.helpdesk.native.ai.setup" name="setup_native_helpdesk_ai"/>
+    </data>
+</odoo>

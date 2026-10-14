@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Fee Line List View -->
+    <record id="student_fee_type_list_view" model="ir.ui.view" >
+        <field name="name">students.fee.type.list</field>
+        <field name="model">students.fee.type</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="name"/>
+                <field name="amount"/>
+            </list>
+        </field>
+    </record>
+    <!-- Fee Line Form View -->
+    <record id="student_fee_type_form_view" model="ir.ui.view">
+        <field name="name">students.fee.type.form</field>
+        <field name="model">students.fee.type</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="amount"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <!-- Fee Line Action -->
+    <record id="student_fee_line_action" model="ir.actions.act_window">
+        <field name="name">Fee Structure</field>
+        <field name="res_model">students.fee.type</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

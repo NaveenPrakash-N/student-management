@@ -1,0 +1,4 @@
+# OpenAI's original Whisper (import name: whisper), plus its own dependencies.
+openai-whisper
+# Groq backup AI provider (chat/tool calling + G-panel Whisper transcription).
+groq

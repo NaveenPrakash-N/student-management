@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <record id="ir_cron_notify_teacher_leave" model="ir.cron">
+
+        <field name="name">Student Management - Teacher Leave Notification</field>
+
+        <field name="model_id" ref="model_students_teacher_leave"/>
+
+        <field name="user_id" ref="base.user_admin"/>
+
+        <field name="state">code</field>
+
+        <field name="code">model._cron_notify_students_of_leave()</field>
+
+        <field name="interval_number">1</field>
+
+        <field name="interval_type">minutes</field>
+
+        <field name="active">True</field>
+
+        <field name="nextcall" eval="(DateTime.now() + relativedelta(minutes=1)).strftime('%Y-%m-%d %H:%M:%S')"/>
+
+    </record>
+
+</odoo>

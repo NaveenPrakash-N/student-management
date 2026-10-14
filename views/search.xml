@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="student_search" model="ir.ui.view">
+        <field name="name">students.student.search.view</field>
+        <field name="model">students.student</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <filter name="male" string="Male" domain="[('gender','=','male')]"/>
+                <filter name="female" string="Female" domain="[('gender','=','female')]"/>
+                <separator/>
+                <filter name="groupby_status" string="Status" context="{'group_by':'enrollment_state'}"/>
+            </search>
+        </field>
+    </record>
+</odoo>
